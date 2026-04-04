@@ -7,11 +7,7 @@ dist/
 node_modules/
 
 # logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
+*.log*
 
 # environment variables
 .env
@@ -22,3 +18,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# test results
+test-results/
+playwright-report/

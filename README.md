@@ -51,3 +51,39 @@ recommended `getViteConfig()` setup.
   - FormattedDate component rendering
   - BlogPost conditional branch predicates
 - Preferred strategy: extract logic-heavy rules into small helpers under `src/utils/` and test them directly; keep Astro component rendering tests for output-specific behavior.
+
+### End-to-End Testing
+
+This project uses Playwright for end-to-end testing. Tests verify navigation flow, blog functionality, and accessibility standards across Chromium, Firefox, and WebKit browsers.
+
+#### Test Files
+
+- Config: `playwright.config.ts`
+- Test folder: `e2e/`
+  - `e2e/navigation.spec.ts` — Header/footer navigation, routing, active link states
+  - `e2e/blog.spec.ts` — Blog index layout, post rendering, responsiveness, sorting
+  - `e2e/accessibility.spec.ts` — Semantic HTML, link text, heading hierarchy, page landmarks
+
+#### Running Tests
+
+- Build and run all tests: `npm run build && npm run test:e2e`
+- Run specific test file: `npm run test:e2e -- navigation.spec.ts`
+- Run in UI mode (interactive): `npm run test:e2e:ui`
+- Run in debug mode: `npm run test:e2e:debug`
+- View test report: `npx playwright show-report`
+
+#### Test Coverage
+
+- **Pages**: Home (`/`), Blog index (`/blog`), About (`/about`), Individual posts (`/blog/[slug]`)
+- **Browsers**: Chromium, Firefox, WebKit (multi-browser coverage)
+- **Scenarios**: Navigation flow, blog browsing, responsiveness, accessibility
+- **Viewports**: Desktop (1280px) and mobile (480px) with responsive layout testing
+
+#### Key Features
+
+- **WebServer**: Automatically builds and previews site during test runs
+- **Parallel execution**: Tests run concurrently for speed (~1-2 min total)
+- **Production testing**: Tests validate built/preview code (catches build-time issues)
+- **Traces & screenshots**: Failed tests capture traces and screenshots in `test-results/`
+
+For detailed E2E testing documentation, see [e2e/README.md](./e2e/README.md).
