@@ -25,4 +25,9 @@ This repository includes a Dev Container definition in `.devcontainer/devcontain
 
 1. Open this folder in VS Code.
 2. Run the command: Dev Containers: Reopen in Container.
-3. After setup finishes, start Astro with `npm run dev`.
+3. After setup finishes, use the project commands:
+
+- `npm run dev` to start Astro.
+- `npm run lint` to run ESLint checks.
+- `npm run lint:fix` to auto-fix ESLint issues.
+- `npm run astro -- check` to run Astro type/content checks.
