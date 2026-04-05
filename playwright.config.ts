@@ -6,9 +6,9 @@ import process from 'node:process';
  * 
  * Features:
  * - WebServer mode: Automatically builds and previews the site before running tests
- * - Multi-browser: Tests run on Chromium, Firefox, and WebKit
+ * - Chromium-only: Tests run on Chromium in local and CI environments
  * - Parallel execution: Tests run concurrently for faster results
- * - Base URL: All tests use relative paths from http://localhost:4321/
+ * - Base URL: All tests use relative paths from http://localhost:4321/my-blog/
  */
 
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
   
   // Fail on console errors (optional, helps catch issues)
   use: {
-    baseURL: 'http://localhost:4321/',
+    baseURL: 'http://localhost:4321/my-blog/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -36,21 +36,20 @@ export default defineConfig({
   // Configure web server to run Astro preview during tests
   webServer: {
     command: 'npm run preview',
-    url: 'http://localhost:4321/',
+    url: 'http://localhost:4321/my-blog/',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000, // 2 minutes to start server
   },
 
-  // Configure projects for different browsers
-  // Note: To use all browsers (firefox, webkit), ensure system dependencies are installed.
-  // For CI/CD environments, you may need to install additional system packages.
-  // See https://playwright.dev/docs/browsers#install-system-dependencies
+  // Configure browser projects.
+  // Chromium is the only active browser in this repo.
+  // If Firefox or WebKit are enabled later, update CI and docs to match.
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    // Uncomment these when system dependencies are available:
+    // Uncomment these when system dependencies are available and CI is updated:
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },

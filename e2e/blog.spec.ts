@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const withBase = (path: string) => `/my-blog${path === '/' ? '/' : path}`;
+
 /**
  * Blog Functionality E2E Tests
  * 
@@ -14,7 +16,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Blog Index Rendering', () => {
   test('blog index should display featured post and grid', async ({ page }) => {
-    await page.goto('/blog');
+    await page.goto(withBase('/blog'));
     
     // Should have posts rendered
     const articles = page.locator('li');
@@ -26,7 +28,7 @@ test.describe('Blog Index Rendering', () => {
   });
 
   test('blog cards should be clickable', async ({ page }) => {
-    await page.goto('/blog');
+    await page.goto(withBase('/blog'));
     
     // Get first post link
     const firstPostLink = page.locator('li a').first();
@@ -38,7 +40,7 @@ test.describe('Blog Index Rendering', () => {
   });
 
   test('clicking blog post should navigate to full post', async ({ page }) => {
-    await page.goto('/blog');
+    await page.goto(withBase('/blog'));
     
     // Get first post and click it
     const firstPostLink = page.locator('li a').first();
@@ -53,7 +55,7 @@ test.describe('Blog Index Rendering', () => {
 
 test.describe('Blog Post Content Rendering', () => {
   test('blog post should display title in h1', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Should have h1 heading
     const h1 = page.locator('h1').first();
@@ -65,7 +67,7 @@ test.describe('Blog Post Content Rendering', () => {
   });
 
   test('blog post should display formatted publication date', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Look for date element
     const dateElements = page.locator('time, .date, [role="note"] time').first();
@@ -80,7 +82,7 @@ test.describe('Blog Post Content Rendering', () => {
   });
 
   test('blog post should have semantic structure (h1, main, article)', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Should have main heading
     const h1 = page.locator('h1');
@@ -95,7 +97,7 @@ test.describe('Blog Post Content Rendering', () => {
 test.describe('External Links in Blog Posts', () => {
   test('external links should have target="_blank" where appropriate', async ({ page }) => {
     // Visit pages that might have external links
-    await page.goto('/about');
+    await page.goto(withBase('/about'));
     
     // Find external links
     const externalLinks = page.locator('a[href^="http"], a[href^="https"], a[href^="//"]');
@@ -118,10 +120,10 @@ test.describe('External Links in Blog Posts', () => {
   });
 
   test('internal blog links should not have target="_blank"', async ({ page }) => {
-    await page.goto('/blog');
+    await page.goto(withBase('/blog'));
     
     // Blog post links
-    const blogLinks = page.locator('a[href^="/blog/"]');
+    const blogLinks = page.locator('a[href*="/blog/"]');
     const count = await blogLinks.count();
     
     // Internal links should not have target="_blank"
@@ -135,7 +137,7 @@ test.describe('External Links in Blog Posts', () => {
 
 test.describe('Blog Post Layout & Typography', () => {
   test('blog content should be readable', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Get article/main content
     const content = page.locator('main');
@@ -151,7 +153,7 @@ test.describe('Mobile Responsive Blog Layout', () => {
   test('blog index should adapt to mobile viewport (480px)', async ({ page }) => {
     // Start on mobile viewport
     await page.setViewportSize({ width: 480, height: 800 });
-    await page.goto('/blog');
+    await page.goto(withBase('/blog'));
     
     // Content should be visible
     const articles = page.locator('li');
@@ -165,7 +167,7 @@ test.describe('Mobile Responsive Blog Layout', () => {
   test('blog post should be readable on mobile', async ({ page }) => {
     // Set mobile viewport
     await page.setViewportSize({ width: 480, height: 800 });
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Content should be visible
     const h1 = page.locator('h1').first();

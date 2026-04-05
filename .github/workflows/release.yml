@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: 22.12.0
+
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+jobs:
+  create-release:
+    name: Create GitHub Release
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout tested commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Read version from package.json
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Validate semantic version
+        run: |
+          set -e
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "[validation] Checking version: $VERSION"
+
+          # Validate semantic versioning format (X.Y.Z)
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "[error] Invalid version format: $VERSION" >&2
+            echo "[error] Expected format: X.Y.Z (e.g., 1.0.0)" >&2
+            exit 1
+          fi
+
+          echo "[validation] Version validated successfully: $VERSION"
+
+      - name: Create release from package version tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          VERSION="${{ steps.version.outputs.version }}"
+          TARGET_SHA="${{ github.event.workflow_run.head_sha }}"
+
+          echo "[release] Creating release for version: $VERSION"
+          echo "[release] Target SHA: $TARGET_SHA"
+
+          if gh release create "$VERSION" \
+            --target "$TARGET_SHA" \
+            --title "Release $VERSION" \
+            --generate-notes; then
+            echo "[success] Release created successfully"
+            RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/$VERSION"
+            echo "[success] Release URL: $RELEASE_URL"
+          else
+            echo "[error] Failed to create release for version: $VERSION" >&2
+            exit 1
+          fi

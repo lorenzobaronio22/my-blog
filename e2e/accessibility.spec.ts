@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const withBase = (path: string) => `/my-blog${path === '/' ? '/' : path}`;
+
 /**
  * Accessibility E2E Tests
  * 
@@ -14,7 +16,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Semantic HTML Structure', () => {
   test('navigation should use semantic nav element', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Header should have nav element
     const nav = page.locator('header nav');
@@ -26,7 +28,7 @@ test.describe('Semantic HTML Structure', () => {
   });
 
   test('blog post should have semantic article or main structure', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Should have main content area
     const main = page.locator('main');
@@ -41,7 +43,7 @@ test.describe('Semantic HTML Structure', () => {
     const pages = ['/', '/blog', '/about', '/blog/first-post'];
     
     for (const pagePath of pages) {
-      await page.goto(pagePath);
+      await page.goto(withBase(pagePath));
       
       const footer = page.locator('footer');
       await expect(footer).toBeVisible();
@@ -49,7 +51,7 @@ test.describe('Semantic HTML Structure', () => {
   });
 
   test('page structure should include header, main content, and footer', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Should have header
     const header = page.locator('header');
@@ -67,7 +69,7 @@ test.describe('Semantic HTML Structure', () => {
 
 test.describe('Link Text and Visibility', () => {
   test('all links should have visible descriptive text', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Get all links
     const links = page.locator('a');
@@ -86,7 +88,7 @@ test.describe('Link Text and Visibility', () => {
   });
 
   test('blog post titles should be link text', async ({ page }) => {
-    await page.goto('/blog');
+    await page.goto(withBase('/blog'));
     
     // Blog post links should have meaningful titles
     const postLinks = page.locator('article a');
@@ -104,7 +106,7 @@ test.describe('Link Text and Visibility', () => {
   });
 
   test('navigation links should have clear labels', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     const navLinks = page.locator('header nav a');
     const count = await navLinks.count();
@@ -121,7 +123,7 @@ test.describe('Link Text and Visibility', () => {
   });
 
   test('social links should have aria-label or descriptive text', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     const footer = page.locator('footer');
     const socialLinks = footer.locator('a');
@@ -142,7 +144,7 @@ test.describe('Link Text and Visibility', () => {
 
 test.describe('Heading Hierarchy', () => {
   test('headings should follow proper hierarchy on home page', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Get first two heading levels
     const h1 = page.locator('h1');
@@ -153,7 +155,7 @@ test.describe('Heading Hierarchy', () => {
   });
 
   test('blog post should not skip heading levels', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Get all headings
     const headings = page.locator('h1, h2, h3, h4, h5, h6');
@@ -165,7 +167,7 @@ test.describe('Heading Hierarchy', () => {
 
 test.describe('Page Landmarks and Regions', () => {
   test('header should contain navigation', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     const header = page.locator('header');
     const nav = header.locator('nav');
@@ -174,7 +176,7 @@ test.describe('Page Landmarks and Regions', () => {
   });
 
   test('content should be in main landmark', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     const main = page.locator('main');
     const mainContent = await main.textContent();
@@ -186,7 +188,7 @@ test.describe('Page Landmarks and Regions', () => {
 
 test.describe('Text Readability', () => {
   test('blog post content should have sufficient size and spacing', async ({ page }) => {
-    await page.goto('/blog/first-post');
+    await page.goto(withBase('/blog/first-post'));
     
     // Get main content
     const main = page.locator('main');
@@ -198,7 +200,7 @@ test.describe('Text Readability', () => {
   });
 
   test('page should have adequate line spacing', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Get paragraphs
     const paragraphs = page.locator('p');
@@ -211,7 +213,7 @@ test.describe('Text Readability', () => {
   });
 
   test('active link should be visually distinct', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Get active link
     const activeLink = page.locator('header nav a[aria-current="page"]');
@@ -244,7 +246,7 @@ test.describe('Text Readability', () => {
   });
 
   test('links should be distinguishable from regular text', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Get links
     const links = page.locator('a');
@@ -273,7 +275,7 @@ test.describe('Text Readability', () => {
 
 test.describe('Form Accessibility (if applicable)', () => {
   test('any form inputs should have associated labels', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Look for form inputs
     const inputs = page.locator('input, textarea, select');
@@ -301,7 +303,7 @@ test.describe('Form Accessibility (if applicable)', () => {
 
 test.describe('Color Contrast and Visual Hierarchy', () => {
   test('page text should have readable color', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Get body text
     const bodyText = page.locator('body');
@@ -318,7 +320,7 @@ test.describe('Color Contrast and Visual Hierarchy', () => {
   });
 
   test('heading text should be visually distinct from body', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     const h1 = page.locator('h1').first();
     const bodyText = page.locator('p').first();
@@ -351,7 +353,7 @@ test.describe('Page Title and Metadata', () => {
     ];
     
     for (const item of pages) {
-      await page.goto(item.path);
+      await page.goto(withBase(item.path));
       
       const title = await page.title();
       expect(title.length).toBeGreaterThan(0);
@@ -359,7 +361,7 @@ test.describe('Page Title and Metadata', () => {
   });
 
   test('page should have meta description', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(withBase('/'));
     
     // Check for meta description
     const metaDescription = page.locator('meta[name="description"]');

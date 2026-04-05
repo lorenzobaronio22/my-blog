@@ -3,3 +3,6 @@
 
 export const SITE_TITLE = 'Astro Blog';
 export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const BASE_URL = import.meta.env.BASE_URL.endsWith('/') 
+  ? import.meta.env.BASE_URL 
+  : `${import.meta.env.BASE_URL}/`;

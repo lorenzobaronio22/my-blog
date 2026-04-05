@@ -54,7 +54,7 @@ recommended `getViteConfig()` setup.
 
 ### End-to-End Testing
 
-This project uses Playwright for end-to-end testing. Tests verify navigation flow, blog functionality, and accessibility standards across Chromium, Firefox, and WebKit browsers.
+This project uses Playwright for end-to-end testing. Tests verify navigation flow, blog functionality, and accessibility standards on Chromium.
 
 #### Test Files
 
@@ -75,7 +75,7 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 #### Test Coverage
 
 - **Pages**: Home (`/`), Blog index (`/blog`), About (`/about`), Individual posts (`/blog/[slug]`)
-- **Browsers**: Chromium, Firefox, WebKit (multi-browser coverage)
+- **Browsers**: Chromium (single-browser coverage)
 - **Scenarios**: Navigation flow, blog browsing, responsiveness, accessibility
 - **Viewports**: Desktop (1280px) and mobile (480px) with responsive layout testing
 
@@ -87,3 +87,35 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 - **Traces & screenshots**: Failed tests capture traces and screenshots in `test-results/`
 
 For detailed E2E testing documentation, see [e2e/README.md](./e2e/README.md).
+
+## CI/CD
+
+This project uses GitHub Actions with a trunk-based workflow:
+
+- Pull requests targeting `main` run CI checks.
+- Pushes to `main` run CI checks.
+- A successful `main` CI run triggers a release, tagged from `package.json` version (raw format, e.g. `0.0.1`).
+- A published release triggers deployment to GitHub Pages.
+
+### Workflows
+
+- `.github/workflows/ci.yml`
+  - Runs lint, Astro check, Vitest, build, and Playwright e2e.
+- `.github/workflows/release.yml`
+  - Triggered by successful CI on `main`.
+  - Creates a GitHub release using the version in `package.json`.
+  - If the tag already exists, release creation fails and deployment is not triggered.
+- `.github/workflows/deploy.yml`
+  - Triggered by `release.published`.
+  - Builds and deploys to GitHub Pages via official Pages actions.
+
+### GitHub Pages Settings
+
+- Repository Settings > Pages > Source must be set to GitHub Actions.
+- Astro config is set for project Pages deployment:
+  - `site: https://lorenzobaronio22.github.io`
+  - `base: /my-blog`
+
+### Branch Protection Recommendation
+
+To align with trunk-based development, protect `main` and require CI status checks to pass before merge.
