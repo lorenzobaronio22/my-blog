@@ -12,6 +12,7 @@ describe("Header", () => {
     expect(result).toContain(
       '<div class="social-links social-links--header"',
     );
+    expect(result).toContain('Code &amp; Cables by Lorenzo');
     expect(result).toContain('href="/"');
     expect(result).toContain('href="/blog"');
     expect(result).toContain('href="https://github.com/lorenzobaronio22"');

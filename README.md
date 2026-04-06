@@ -46,6 +46,7 @@ recommended `getViteConfig()` setup.
 - Current coverage includes:
   - content schema validation edge cases
   - HeaderLink active-route logic
+  - homepage content and latest-links rendering
   - blog post sorting rules
   - blog slug static-path mapping rules
   - FormattedDate component rendering
@@ -60,14 +61,15 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 
 - Config: `playwright.config.ts`
 - Test folder: `e2e/`
-  - `e2e/navigation.spec.ts` — Header/footer navigation, routing, active link states
+  - `e2e/homepage.spec.ts` — Homepage title/subtitle and latest-links behavior
+  - `e2e/header-social-links.spec.ts` — Header social links rendering and attributes
   - `e2e/blog.spec.ts` — Blog index layout, post rendering, responsiveness, sorting
   - `e2e/accessibility.spec.ts` — Semantic HTML, link text, heading hierarchy, page landmarks
 
 #### Running Tests
 
 - Build and run all tests: `npm run build && npm run test:e2e`
-- Run specific test file: `npm run test:e2e -- navigation.spec.ts`
+- Run specific test file: `npm run test:e2e -- homepage.spec.ts`
 - Run in UI mode (interactive): `npm run test:e2e:ui`
 - Run in debug mode: `npm run test:e2e:debug`
 - View test report: `npx playwright show-report`
