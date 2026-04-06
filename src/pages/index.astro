@@ -4,6 +4,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { getCollection } from "astro:content";
 import { BASE_URL, SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { sortBlogPosts } from "../utils/blog";
 
 const publicationDate = new Date();
 const formattedPublicationDate = publicationDate.toLocaleDateString("en-US", {
@@ -13,10 +14,7 @@ const formattedPublicationDate = publicationDate.toLocaleDateString("en-US", {
 });
 
 const posts = await getCollection("blog");
-const selectedPostIds = ["first-post", "second-post"];
-const latestGreatestPosts = selectedPostIds
-  .map((id) => posts.find((post) => post.id === id))
-  .filter((post): post is (typeof posts)[number] => Boolean(post));
+const latestGreatestPosts = sortBlogPosts(posts).slice(0, 2);
 ---
 
 <!doctype html>

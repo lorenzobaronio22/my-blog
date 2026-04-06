@@ -46,7 +46,7 @@ recommended `getViteConfig()` setup.
 - Current coverage includes:
   - content schema validation edge cases
   - HeaderLink active-route logic
-  - homepage content and latest-links rendering
+  - homepage content rendering
   - blog post sorting rules
   - blog slug static-path mapping rules
   - FormattedDate component rendering
@@ -61,9 +61,9 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 
 - Config: `playwright.config.ts`
 - Test folder: `e2e/`
-  - `e2e/homepage.spec.ts` — Homepage title/subtitle and latest-links behavior
+  - `e2e/homepage.spec.ts` — Homepage title/subtitle and section structure
   - `e2e/header-social-links.spec.ts` — Header social links rendering and attributes
-  - `e2e/blog.spec.ts` — Blog index layout, post rendering, responsiveness, sorting
+  - `e2e/blog.spec.ts` — Blog index structure and responsiveness
   - `e2e/accessibility.spec.ts` — Semantic HTML, link text, heading hierarchy, page landmarks
 
 #### Running Tests
@@ -76,10 +76,12 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 
 #### Test Coverage
 
-- **Pages**: Home (`/`), Blog index (`/blog`), Individual posts (`/blog/[slug]`)
+- **Pages**: Home (`/`), Blog index (`/blog`)
 - **Browsers**: Chromium (single-browser coverage)
-- **Scenarios**: Navigation flow, blog browsing, responsiveness, accessibility
-- **Viewports**: Desktop (1280px) and mobile (480px) with responsive layout testing
+- **Scenarios**: Navigation flow, blog index structure, accessibility
+- **Viewports**: Desktop (1280px) and mobile (480px)
+
+> **Note**: `src/content/blog/` is empty and ready for real content. Post-specific E2E tests will be added once real posts are published.
 
 #### Key Features
 

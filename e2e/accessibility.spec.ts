@@ -27,20 +27,8 @@ test.describe('Semantic HTML Structure', () => {
     await expect(footer).toBeVisible();
   });
 
-  test('blog post should have semantic article or main structure', async ({ page }) => {
-    await page.goto(withBase('/blog/first-post'));
-    
-    // Should have main content area
-    const main = page.locator('main');
-    await expect(main).toBeVisible();
-    
-    // Should have h1
-    const h1 = page.locator('h1').first();
-    await expect(h1).toBeVisible();
-  });
-
   test('each page should have footer landmark', async ({ page }) => {
-    const pages = ['/', '/blog', '/blog/first-post'];
+    const pages = ['/', '/blog'];
     
     for (const pagePath of pages) {
       await page.goto(withBase(pagePath));
@@ -154,15 +142,6 @@ test.describe('Heading Hierarchy', () => {
     expect(count).toBeGreaterThanOrEqual(1);
   });
 
-  test('blog post should not skip heading levels', async ({ page }) => {
-    await page.goto(withBase('/blog/first-post'));
-    
-    // Get all headings
-    const headings = page.locator('h1, h2, h3, h4, h5, h6');
-    
-    // Should have at least h1
-    await expect(headings.first()).toBeVisible();
-  });
 });
 
 test.describe('Page Landmarks and Regions', () => {
@@ -175,30 +154,9 @@ test.describe('Page Landmarks and Regions', () => {
     await expect(nav).toBeVisible();
   });
 
-  test('content should be in main landmark', async ({ page }) => {
-    await page.goto(withBase('/blog/first-post'));
-    
-    const main = page.locator('main');
-    const mainContent = await main.textContent();
-    
-    // Main should have content
-    expect(mainContent?.trim().length).toBeGreaterThan(0);
-  });
 });
 
 test.describe('Text Readability', () => {
-  test('blog post content should have sufficient size and spacing', async ({ page }) => {
-    await page.goto(withBase('/blog/first-post'));
-    
-    // Get main content
-    const main = page.locator('main');
-    await expect(main).toBeVisible();
-    
-    // Verify text is present and substantial
-    const text = await main.textContent();
-    expect(text?.trim().length).toBeGreaterThan(100);
-  });
-
   test('page should have adequate line spacing', async ({ page }) => {
     await page.goto(withBase('/'));
     
@@ -348,7 +306,6 @@ test.describe('Page Title and Metadata', () => {
     const pages = [
       { path: '/', pattern: /Blog|Home|Astro/i },
       { path: '/blog', pattern: /Blog|Posts/i },
-      { path: '/blog/first-post', pattern: /First.*Post|first-post/i },
     ];
     
     for (const item of pages) {

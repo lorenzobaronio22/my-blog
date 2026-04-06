@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import heroImage from "../../src/assets/blog-placeholder-1.jpg";
+import type { ImageMetadata } from "astro";
 import { hasHeroImage, hasUpdatedDate } from "../../src/utils/blog-post";
+
+const heroImage: ImageMetadata = {
+  src: "/test-image.jpg",
+  width: 100,
+  height: 100,
+  format: "jpg",
+};
 
 describe("BlogPost layout", () => {
   it("flags updated date section as visible when updatedDate is provided", () => {
