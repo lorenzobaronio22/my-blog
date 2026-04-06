@@ -6,8 +6,8 @@ describe("HeaderLink active-state logic", () => {
   it("marks link as active when href matches pathname", () => {
     expect(
       isHeaderLinkActive({
-        href: "/about",
-        pathname: "/about",
+        href: "/blog",
+        pathname: "/blog",
         baseUrl: "/",
       }),
     ).toBe(true);
@@ -26,7 +26,7 @@ describe("HeaderLink active-state logic", () => {
   it("does not mark unrelated link as active", () => {
     expect(
       isHeaderLinkActive({
-        href: "/about",
+        href: "/",
         pathname: "/blog/my-post",
         baseUrl: "/",
       }),

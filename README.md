@@ -74,7 +74,7 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 
 #### Test Coverage
 
-- **Pages**: Home (`/`), Blog index (`/blog`), About (`/about`), Individual posts (`/blog/[slug]`)
+- **Pages**: Home (`/`), Blog index (`/blog`), Individual posts (`/blog/[slug]`)
 - **Browsers**: Chromium (single-browser coverage)
 - **Scenarios**: Navigation flow, blog browsing, responsiveness, accessibility
 - **Viewports**: Desktop (1280px) and mobile (480px) with responsive layout testing

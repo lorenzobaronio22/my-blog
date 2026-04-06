@@ -95,30 +95,6 @@ test.describe('Blog Post Content Rendering', () => {
 });
 
 test.describe('External Links in Blog Posts', () => {
-  test('external links should have target="_blank" where appropriate', async ({ page }) => {
-    // Visit pages that might have external links
-    await page.goto(withBase('/about'));
-    
-    // Find external links
-    const externalLinks = page.locator('a[href^="http"], a[href^="https"], a[href^="//"]');
-    const count = await externalLinks.count();
-    
-    // If external links exist, check they open in new tab
-    if (count > 0) {
-      for (let i = 0; i < Math.min(count, 3); i++) {
-        const link = externalLinks.nth(i);
-        const href = await link.getAttribute('href');
-        
-        // External links should be marked to open in new tab
-        const target = await link.getAttribute('target');
-        if (href && (href.includes('http') || href.includes('//'))) {
-          // External link should have target="_blank"
-          expect(target).toBe('_blank');
-        }
-      }
-    }
-  });
-
   test('internal blog links should not have target="_blank"', async ({ page }) => {
     await page.goto(withBase('/blog'));
     

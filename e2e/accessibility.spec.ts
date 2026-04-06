@@ -40,7 +40,7 @@ test.describe('Semantic HTML Structure', () => {
   });
 
   test('each page should have footer landmark', async ({ page }) => {
-    const pages = ['/', '/blog', '/about', '/blog/first-post'];
+    const pages = ['/', '/blog', '/blog/first-post'];
     
     for (const pagePath of pages) {
       await page.goto(withBase(pagePath));
@@ -348,7 +348,6 @@ test.describe('Page Title and Metadata', () => {
     const pages = [
       { path: '/', pattern: /Blog|Home|Astro/i },
       { path: '/blog', pattern: /Blog|Posts/i },
-      { path: '/about', pattern: /About|About/i },
       { path: '/blog/first-post', pattern: /First.*Post|first-post/i },
     ];
     
