@@ -1,9 +1,9 @@
 ---
-import { SITE_TITLE } from "../consts";
+import { SITE_TITLE, config } from "../consts";
 ---
 
 <img
-  src="/avatar-placeholder.svg"
+  src={config.avatarImage.src}
   loading="eager"
   width="112"
   height="112"
@@ -14,7 +14,6 @@ import { SITE_TITLE } from "../consts";
 <style>
   .avatar-image {
     border-radius: 999px;
-    border: 2px solid var(--color-border);
     box-shadow: 0 14px 24px -20px var(--color-shadow);
     transition: transform 200ms ease;
   }

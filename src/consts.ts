@@ -1,3 +1,5 @@
+import avatarImage from './assets/avatar.png';
+
 export const SITE_TITLE = 'Code & Cables By Lorenzo';
 export const SITE_DESCRIPTION =
   'Notes, tutorials, and insights on software development and home lab projects.';
@@ -11,6 +13,7 @@ export const config = {
   author: 'Lorenzo Baronio',
   siteName: SITE_TITLE,
   language: 'en-US',
+  avatarImage,
 };
 
 export const links = [
