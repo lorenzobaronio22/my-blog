@@ -1,3 +1,5 @@
+import { getCollection } from "astro:content";
+
 type PostWithDate = {
   id: string;
   data: {
@@ -20,4 +22,8 @@ export function mapPostsToStaticPaths<T extends { id: string }>(posts: T[]) {
     params: { slug: post.id },
     props: post,
   }));
+}
+
+export async function getAllPosts() {
+  return sortBlogPosts(await getCollection("blog"));
 }

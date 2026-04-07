@@ -9,3 +9,7 @@ export function hasHeroImage(
 ): heroImage is ImageMetadata {
   return Boolean(heroImage);
 }
+
+export function getPostTags(tags: string[] | undefined): string[] {
+  return Array.isArray(tags) ? tags.filter(Boolean) : [];
+}

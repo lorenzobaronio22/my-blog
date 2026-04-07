@@ -1,0 +1,71 @@
+<button
+  id="themeToggle"
+  aria-label="Toggle theme"
+  class="theme-toggle"
+  type="button"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      class="sun"
+      fill-rule="evenodd"
+      d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm0-19a.8.8 0 0 1 .8.8v2.4a.8.8 0 0 1-1.6 0V.8a.8.8 0 0 1 .8-.8zm0 20a.8.8 0 0 1 .8.8v2.4a.8.8 0 0 1-1.6 0v-2.4a.8.8 0 0 1 .8-.8zM4 12a.8.8 0 0 1-.8.8H.8a.8.8 0 0 1 0-1.6h2.4A.8.8 0 0 1 4 12zm20 0a.8.8 0 0 1-.8.8h-2.4a.8.8 0 0 1 0-1.6h2.4a.8.8 0 0 1 .8.8z"
+    ></path>
+    <path
+      class="moon"
+      fill-rule="evenodd"
+      d="M16.4 4.8a8 8 0 1 1-8.7 11.3A8.7 8.7 0 0 0 16.4 4.8z"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  const applyTheme = () => {
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const isDark = storedTheme ? storedTheme === "dark" : prefersDark;
+    document.documentElement.classList.toggle("dark", isDark);
+  };
+
+  applyTheme();
+
+  document.addEventListener("astro:page-load", () => {
+    applyTheme();
+    document.getElementById("themeToggle")?.addEventListener("click", () => {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-primary-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-toggle .sun {
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 1.4;
+  }
+
+  .theme-toggle .moon {
+    fill: currentColor;
+  }
+
+  :global(.dark) .theme-toggle .sun {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  :global(.dark) .theme-toggle .moon {
+    fill: transparent;
+  }
+</style>

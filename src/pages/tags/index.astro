@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+
+const posts = await getCollection("blog");
+const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))]
+  .map((tag) => ({
+    tag,
+    count: posts.filter((post) => post.data.tags?.includes(tag)).length,
+  }))
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Tags | ${SITE_TITLE}`}
+      description="Browse all blog tags."
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="card tags" aria-labelledby="tags-title">
+        <h1 id="tags-title">Tags</h1>
+        <div class="grid">
+          {
+            tags.map((item) => (
+              <a href={`/tags/${encodeURIComponent(item.tag)}/`}>
+                <span>{item.tag}</span>
+                <strong>{item.count}</strong>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .tags {
+    margin-top: 0.8rem;
+    padding: 1.2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+
+  .grid a {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 0.55rem 0.7rem;
+    color: var(--color-primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .grid a strong {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ title: How I Used to Host This Blog
 description: A record of my previous blog setup with Docmost, Cloudflare Tunnel, and Nginx before migrating to Astro.
 pubDate: 2025-05-27
 updatedDate: 2026-04-06
+tags: [homelab, blog, astro]
 ---
 
 ## Intro

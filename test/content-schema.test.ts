@@ -88,4 +88,15 @@ describe("blog content schema", () => {
     expect(withoutHeroImage.success).toBe(true);
     expect(withHeroImage.success).toBe(true);
   });
+
+  it("accepts optional tags array", () => {
+    const result = schema.safeParse({
+      title: "Post title",
+      description: "Post description",
+      pubDate: "2026-04-04",
+      tags: ["astro", "homelab"],
+    });
+
+    expect(result.success).toBe(true);
+  });
 });

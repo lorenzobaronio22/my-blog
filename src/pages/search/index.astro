@@ -1,0 +1,147 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+
+const entries = (await getCollection("blog")).map((post) => ({
+  id: post.id,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags ?? [],
+  content: post.body,
+}));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Search | ${SITE_TITLE}`}
+      description="Search through blog posts."
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="card search" aria-labelledby="search-title">
+        <h1 id="search-title">Search</h1>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search posts, tags, or content"
+        />
+        <p class="hint">Type at least 2 characters to start searching.</p>
+        <ul id="search-results"></ul>
+      </section>
+    </main>
+    <Footer />
+
+    <script
+      is:inline
+      type="application/json"
+      id="search-data"
+      set:html={JSON.stringify(entries)}
+    />
+    <script is:inline>
+      const dataElement = document.getElementById("search-data");
+      const searchInput = document.getElementById("search-input");
+      const results = document.getElementById("search-results");
+      const entries = dataElement
+        ? JSON.parse(dataElement.textContent || "[]")
+        : [];
+
+      const renderResults = (items) => {
+        if (!results) {
+          return;
+        }
+
+        if (items.length === 0) {
+          results.innerHTML = '<li class="empty">No matching posts found.</li>';
+          return;
+        }
+
+        results.innerHTML = items
+          .map(
+            (item) =>
+              `<li><a href="/blog/${item.id}/"><strong>${item.title}</strong><span>${item.description}</span></a></li>`,
+          )
+          .join("");
+      };
+
+      searchInput?.addEventListener("input", (event) => {
+        const value = event.target.value.toLowerCase().trim();
+        if (value.length < 2) {
+          results.innerHTML = "";
+          return;
+        }
+
+        const matches = entries.filter((entry) => {
+          const tags = entry.tags.join(" ");
+          const haystack =
+            `${entry.title} ${entry.description} ${tags} ${entry.content}`.toLowerCase();
+          return haystack.includes(value);
+        });
+
+        renderResults(matches.slice(0, 20));
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .search {
+    margin-top: 0.8rem;
+    padding: 1.2rem;
+  }
+
+  #search-input {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    background: var(--color-surface);
+    color: var(--color-primary-dark);
+    font: inherit;
+  }
+
+  .hint {
+    margin-top: 0.55rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  #search-results {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  #search-results li {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+  }
+
+  #search-results a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    color: var(--color-primary-dark);
+    text-decoration: none;
+  }
+
+  #search-results a span {
+    color: var(--color-muted);
+    font-size: 0.86rem;
+  }
+
+  #search-results .empty {
+    color: var(--color-muted);
+    border-style: dashed;
+  }
+</style>
