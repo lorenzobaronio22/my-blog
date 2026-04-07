@@ -1,0 +1,42 @@
+---
+import { BASE_URL, links } from "../consts";
+import ThemeButton from "./ThemeButton.astro";
+
+const normalizePathname = (pathname: string) => {
+  const withoutBase = pathname.startsWith(BASE_URL)
+    ? pathname.slice(BASE_URL.length - 1)
+    : pathname;
+
+  return withoutBase === "/" ? "/" : withoutBase.replace(/\/$/, "");
+};
+
+const currentPath = normalizePathname(Astro.url.pathname);
+---
+
+<nav aria-label="Main navigation">
+  <ul class="nav-list">
+    {
+      links.map((link) => {
+        const normalizedLink =
+          link.url === "/" ? "/" : link.url.replace(/\/$/, "");
+        const isActive =
+          currentPath === normalizedLink ||
+          (normalizedLink !== "/" &&
+            currentPath.startsWith(`${normalizedLink}/`));
+
+        return (
+          <li>
+            <a
+              href={link.url}
+              class:list={[{ active: isActive }]}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {link.title}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <ThemeButton />
+</nav>

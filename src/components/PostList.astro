@@ -1,0 +1,71 @@
+---
+import { getPostLink } from "../consts";
+import { formatYMD } from "../utils/date-helper";
+
+interface PostItem {
+  id: string;
+  data: {
+    title: string;
+    pubDate: Date;
+  };
+}
+
+interface Props {
+  posts: PostItem[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul class="post-list">
+  {
+    posts.map((post) => (
+      <li>
+        <span>{formatYMD(post.data.pubDate)}</span>
+        <a href={getPostLink(post)}>{post.data.title}</a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .post-list li {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.6rem;
+    align-items: baseline;
+    border-bottom: 1px dashed var(--color-border);
+    padding-bottom: 0.6rem;
+  }
+
+  .post-list li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .post-list span {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+  }
+
+  .post-list a {
+    color: var(--color-primary-dark);
+    font-weight: 550;
+  }
+
+  @media (max-width: 720px) {
+    .post-list li {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import { SITE_TITLE, config } from "../consts";
+---
+
+<img
+  src={config.avatarImage.src}
+  loading="eager"
+  width="112"
+  height="112"
+  alt={`Avatar of ${SITE_TITLE}`}
+  class="avatar-image"
+/>
+
+<style>
+  .avatar-image {
+    border-radius: 999px;
+    box-shadow: 0 14px 24px -20px var(--color-shadow);
+    transition: transform 200ms ease;
+  }
+
+  .avatar-image:hover {
+    transform: translateY(-2px) rotate(-2deg);
+  }
+</style>

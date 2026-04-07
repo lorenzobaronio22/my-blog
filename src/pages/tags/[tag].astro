@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import PostList from "../../components/PostList.astro";
+import { SITE_TITLE } from "../../consts";
+import { sortBlogPosts } from "../../utils/blog";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))];
+  return tags.map((tag) => ({ params: { tag }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+const posts = sortBlogPosts(
+  (await getCollection("blog")).filter((post) => post.data.tags?.includes(tag)),
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${tag} | Tags | ${SITE_TITLE}`}
+      description={`Posts tagged with ${tag}.`}
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="card tag-posts" aria-labelledby="tag-title">
+        <h1 id="tag-title">#{tag}</h1>
+        <PostList posts={posts} />
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .tag-posts {
+    margin-top: 0.8rem;
+    padding: 1.2rem;
+  }
+</style>

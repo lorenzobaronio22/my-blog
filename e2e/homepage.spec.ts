@@ -8,15 +8,14 @@ test.describe('Homepage Content and Latest Links', () => {
       page.getByRole('heading', { level: 1, name: 'Welcome!' }),
     ).toBeVisible();
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Latest & Greatest' }),
+      page.getByRole('heading', { level: 2, name: 'Latest Posts' }),
     ).toBeVisible();
   });
 
-  test('home page shows subtle publication subtitle', async ({ page }) => {
+  test('home page shows intro section', async ({ page }) => {
     await page.goto('/');
 
-    const subtitle = page.locator('.build-date');
-    await expect(subtitle).toBeVisible();
-    await expect(subtitle).toContainText('Published on');
+    const intro = page.locator('.intro');
+    await expect(intro).toBeVisible();
   });
 });

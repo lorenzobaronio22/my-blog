@@ -3,6 +3,7 @@ title: Securely Expose Services with Cloudflare and Tailscale
 description: Expose self-hosted services securely with Cloudflare Tunnels and Tailscale using Docker and LXC.
 pubDate: 2025-07-05
 updatedDate: 2025-07-05
+tags: [homelab, cloudflare, tailscale, networking]
 ---
 
 If you self-host services, you face a tradeoff: expose ports publicly (higher risk) or keep everything private (harder remote access).
