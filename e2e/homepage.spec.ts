@@ -1,10 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-const withBase = (path: string) => `/my-blog${path === '/' ? '/' : path}`;
-
 test.describe('Homepage Content and Latest Links', () => {
   test('home page shows new title and section heading', async ({ page }) => {
-    await page.goto(withBase('/'));
+    await page.goto('/');
 
     await expect(
       page.getByRole('heading', { level: 1, name: 'Welcome!' }),
@@ -15,7 +13,7 @@ test.describe('Homepage Content and Latest Links', () => {
   });
 
   test('home page shows subtle publication subtitle', async ({ page }) => {
-    await page.goto(withBase('/'));
+    await page.goto('/');
 
     const subtitle = page.locator('.build-date');
     await expect(subtitle).toBeVisible();

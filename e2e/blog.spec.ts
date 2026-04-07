@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const withBase = (path: string) => `/my-blog${path === '/' ? '/' : path}`;
-
 /**
  * Blog E2E Tests
  *
@@ -13,14 +11,14 @@ const withBase = (path: string) => `/my-blog${path === '/' ? '/' : path}`;
 
 test.describe('Blog Index Structure', () => {
   test('blog index should load and display main content area', async ({ page }) => {
-    await page.goto(withBase('/blog'));
+    await page.goto('/blog');
 
     const main = page.locator('main');
     await expect(main).toBeVisible();
   });
 
   test('internal blog links should not have target="_blank"', async ({ page }) => {
-    await page.goto(withBase('/blog'));
+    await page.goto('/blog');
 
     // Blog post links (if any) should not open in a new tab
     const blogLinks = page.locator('a[href*="/blog/"]');
@@ -34,7 +32,7 @@ test.describe('Blog Index Structure', () => {
   });
 
   test('blog index should list at least one post and every listed post should resolve', async ({ page }) => {
-    await page.goto(withBase('/blog'));
+    await page.goto('/blog');
 
     const listingLinks = page.locator('main section ul li > a[href*="/blog/"]');
     await expect(listingLinks.first()).toBeVisible();
@@ -53,7 +51,7 @@ test.describe('Blog Index Structure', () => {
     const clickSampleSize = Math.min(2, normalizedPostLinks.length);
 
     for (const href of normalizedPostLinks.slice(0, clickSampleSize)) {
-      await page.goto(withBase('/blog'));
+      await page.goto('/blog');
 
       const currentLink = page.locator(`main section ul li > a[href="${href}"]`);
 
@@ -74,7 +72,7 @@ test.describe('Blog Index Structure', () => {
 test.describe('Mobile Responsive Blog Layout', () => {
   test('blog index should be visible on mobile viewport (480px)', async ({ page }) => {
     await page.setViewportSize({ width: 480, height: 800 });
-    await page.goto(withBase('/blog'));
+    await page.goto('/blog');
 
     const main = page.locator('main');
     await expect(main).toBeVisible();

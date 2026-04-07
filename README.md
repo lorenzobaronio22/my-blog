@@ -116,9 +116,8 @@ This project uses GitHub Actions with a trunk-based workflow:
 ### GitHub Pages Settings
 
 - Repository Settings > Pages > Source must be set to GitHub Actions.
-- Astro config is set for project Pages deployment:
-  - `site: https://lorenzobaronio22.github.io`
-  - `base: /my-blog`
+- Astro config is set for custom domain deployment:
+  - `site: https://www.lorenzobaronio.com`
 
 ### Branch Protection Recommendation
 

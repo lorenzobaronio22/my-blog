@@ -8,7 +8,7 @@ import process from 'node:process';
  * - WebServer mode: Automatically builds and previews the site before running tests
  * - Chromium-only: Tests run on Chromium in local and CI environments
  * - Parallel execution: Tests run concurrently for faster results
- * - Base URL: All tests use relative paths from http://localhost:4321/my-blog/
+ * - Base URL: All tests use relative paths from http://localhost:4321/
  */
 
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
   
   // Fail on console errors (optional, helps catch issues)
   use: {
-    baseURL: 'http://localhost:4321/my-blog/',
+    baseURL: 'http://localhost:4321/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -36,7 +36,7 @@ export default defineConfig({
   // Configure web server to run Astro preview during tests
   webServer: {
     command: 'npm run preview',
-    url: 'http://localhost:4321/my-blog/',
+    url: 'http://localhost:4321/',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000, // 2 minutes to start server
   },

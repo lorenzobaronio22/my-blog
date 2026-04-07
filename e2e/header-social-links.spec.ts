@@ -1,11 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-const withBase = (path: string) => `/my-blog${path === '/' ? '/' : path}`;
-
 test.describe('Header social links', () => {
   test('should render the shared social links component in the header', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto(withBase('/'));
+    await page.goto('/');
 
     const socialLinksRegion = page.locator('header .social-links.social-links--header');
     await expect(socialLinksRegion).toBeVisible();
