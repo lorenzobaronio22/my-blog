@@ -47,15 +47,15 @@ recommended `getViteConfig()` setup.
   - content schema validation edge cases
   - HeaderLink active-route logic
   - homepage content rendering
-  - blog post sorting rules
-  - blog slug static-path mapping rules
+  - post sorting rules
+  - post slug static-path mapping rules
   - FormattedDate component rendering
-  - BlogPost conditional branch predicates
+  - PostEntry conditional branch predicates
 - Preferred strategy: extract logic-heavy rules into small helpers under `src/utils/` and test them directly; keep Astro component rendering tests for output-specific behavior.
 
 ### End-to-End Testing
 
-This project uses Playwright for end-to-end testing. Tests verify navigation flow, blog functionality, and accessibility standards on Chromium.
+This project uses Playwright for end-to-end testing. Tests verify navigation flow, post functionality, and accessibility standards on Chromium.
 
 #### Test Files
 
@@ -63,7 +63,7 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 - Test folder: `e2e/`
   - `e2e/homepage.spec.ts` — Homepage title/subtitle and section structure
   - `e2e/header-social-links.spec.ts` — Header social links rendering and attributes
-  - `e2e/blog.spec.ts` — Blog index structure and responsiveness
+  - `e2e/posts.spec.ts` — Posts index structure and responsiveness
   - `e2e/accessibility.spec.ts` — Semantic HTML, link text, heading hierarchy, page landmarks
 
 #### Running Tests
@@ -76,12 +76,12 @@ This project uses Playwright for end-to-end testing. Tests verify navigation flo
 
 #### Test Coverage
 
-- **Pages**: Home (`/`), Blog index (`/blog`)
+- **Pages**: Home (`/`), Posts index (`/posts`)
 - **Browsers**: Chromium (single-browser coverage)
-- **Scenarios**: Navigation flow, blog index structure, accessibility
+- **Scenarios**: Navigation flow, posts index structure, accessibility
 - **Viewports**: Desktop (1280px) and mobile (480px)
 
-> **Note**: `src/content/blog/` is empty and ready for real content. Post-specific E2E tests will be added once real posts are published.
+> **Note**: `src/content/posts/` stores the local markdown content used by the posts routes and search index.
 
 #### Key Features
 

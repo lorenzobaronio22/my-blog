@@ -26,7 +26,7 @@ test.describe('Semantic HTML Structure', () => {
   });
 
   test('each page should have footer landmark', async ({ page }) => {
-    const pages = ['/', '/blog'];
+    const pages = ['/', '/posts'];
     
     for (const pagePath of pages) {
       await page.goto(pagePath);
@@ -73,10 +73,10 @@ test.describe('Link Text and Visibility', () => {
     }
   });
 
-  test('blog post titles should be link text', async ({ page }) => {
-    await page.goto('/blog');
+  test('post titles should be link text', async ({ page }) => {
+    await page.goto('/posts');
     
-    // Blog post links should have meaningful titles
+    // Post links should have meaningful titles
     const postLinks = page.locator('article a');
     const count = await postLinks.count();
     
@@ -237,7 +237,7 @@ test.describe('Form Accessibility (if applicable)', () => {
     const inputs = page.locator('input, textarea, select');
     const inputCount = await inputs.count();
     
-    // Blog doesn't have forms, but if inputs exist they should have labels
+    // The site doesn't have forms, but if inputs exist they should have labels
     if (inputCount > 0) {
       for (let i = 0; i < inputCount; i++) {
         const input = inputs.nth(i);
@@ -302,8 +302,8 @@ test.describe('Color Contrast and Visual Hierarchy', () => {
 test.describe('Page Title and Metadata', () => {
   test('each page should have descriptive title', async ({ page }) => {
     const pages = [
-      { path: '/', pattern: /Blog|Home|Astro/i },
-      { path: '/blog', pattern: /Blog|Posts/i },
+      { path: '/', pattern: /Home|Astro/i },
+      { path: '/posts', pattern: /Posts/i },
     ];
     
     for (const item of pages) {

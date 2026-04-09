@@ -1,40 +1,40 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Blog E2E Tests
+ * Posts E2E Tests
  *
  * Tests:
- * - Blog index page structure and layout
+ * - Posts index page structure and layout
  * - Internal link attributes
- * - Mobile responsiveness of blog index
+ * - Mobile responsiveness of posts index
  */
 
-test.describe('Blog Index Structure', () => {
-  test('blog index should load and display main content area', async ({ page }) => {
-    await page.goto('/blog');
+test.describe('Posts Index Structure', () => {
+  test('posts index should load and display main content area', async ({ page }) => {
+    await page.goto('/posts');
 
     const main = page.locator('main');
     await expect(main).toBeVisible();
   });
 
-  test('internal blog links should not have target="_blank"', async ({ page }) => {
-    await page.goto('/blog');
+  test('internal post links should not have target="_blank"', async ({ page }) => {
+    await page.goto('/posts');
 
-    // Blog post links (if any) should not open in a new tab
-    const blogLinks = page.locator('a[href*="/blog/"]');
-    const count = await blogLinks.count();
+    // Post links (if any) should not open in a new tab
+    const postLinks = page.locator('a[href*="/posts/"]');
+    const count = await postLinks.count();
 
     for (let i = 0; i < Math.min(count, 3); i++) {
-      const link = blogLinks.nth(i);
+      const link = postLinks.nth(i);
       const target = await link.getAttribute('target');
       expect(target).not.toBe('_blank');
     }
   });
 
-  test('blog index should list at least one post and every listed post should resolve', async ({ page }) => {
-    await page.goto('/blog');
+  test('posts index should list at least one post and every listed post should resolve', async ({ page }) => {
+    await page.goto('/posts');
 
-    const listingLinks = page.locator('main section ul li > a[href*="/blog/"]');
+    const listingLinks = page.locator('main section ul li > a[href*="/posts/"]');
     await expect(listingLinks.first()).toBeVisible();
 
     const hrefs = await listingLinks.evaluateAll((anchors) =>
@@ -43,7 +43,7 @@ test.describe('Blog Index Structure', () => {
         .filter((href): href is string => Boolean(href)),
     );
 
-    const postPathPattern = /\/blog\/[^/]+\/?$/;
+    const postPathPattern = /\/posts\/[^/]+\/?$/;
     const normalizedPostLinks = [...new Set(hrefs)].filter((href) => postPathPattern.test(href));
 
     expect(normalizedPostLinks.length).toBeGreaterThanOrEqual(1);
@@ -51,7 +51,7 @@ test.describe('Blog Index Structure', () => {
     const clickSampleSize = Math.min(2, normalizedPostLinks.length);
 
     for (const href of normalizedPostLinks.slice(0, clickSampleSize)) {
-      await page.goto('/blog');
+      await page.goto('/posts');
 
       const currentLink = page.locator(`main section ul li > a[href="${href}"]`);
 
@@ -69,10 +69,10 @@ test.describe('Blog Index Structure', () => {
   });
 });
 
-test.describe('Mobile Responsive Blog Layout', () => {
-  test('blog index should be visible on mobile viewport (480px)', async ({ page }) => {
+test.describe('Mobile Responsive Posts Layout', () => {
+  test('posts index should be visible on mobile viewport (480px)', async ({ page }) => {
     await page.setViewportSize({ width: 480, height: 800 });
-    await page.goto('/blog');
+    await page.goto('/posts');
 
     const main = page.locator('main');
     await expect(main).toBeVisible();

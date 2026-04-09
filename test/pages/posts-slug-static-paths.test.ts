@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { mapPostsToStaticPaths } from "../../src/utils/blog";
+import { mapPostsToStaticPaths } from "../../src/utils/posts";
 
-describe("blog slug static paths mapping", () => {
+describe("posts slug static paths mapping", () => {
   it("maps post ids to params.slug and preserves post props", () => {
     const posts = [
       {

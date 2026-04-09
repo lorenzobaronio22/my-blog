@@ -11,7 +11,7 @@ describe("Header", () => {
 
     expect(result).toContain("Main navigation");
     expect(result).toContain('href="/"');
-    expect(result).toContain('href="/blog"');
+    expect(result).toContain('href="/posts"');
     expect(result).toContain('href="/tags"');
     expect(result).toContain('href="/search"');
     expect(result).toContain('id="themeToggle"');

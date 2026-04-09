@@ -4,7 +4,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import AvatarImage from "../components/AvatarImage.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, getPostLink } from "../consts";
-import { getAllPosts } from "../utils/blog";
+import { getAllPosts } from "../utils/posts";
 import { getMD } from "../utils/date-helper";
 
 const latestGreatestPosts = (await getAllPosts()).slice(0, 4);
