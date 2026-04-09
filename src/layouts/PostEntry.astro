@@ -5,13 +5,15 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
+import { getPostLink } from "../consts";
 import { getPostTags, hasHeroImage, hasUpdatedDate } from "../utils/post-entry";
 
 type Props = {
   post: CollectionEntry<"posts">;
+  relatedPosts?: CollectionEntry<"posts">[];
 };
 
-const { post } = Astro.props;
+const { post, relatedPosts = [] } = Astro.props;
 const { title, description, pubDate, updatedDate, heroImage, tags } = post.data;
 const visibleTags = getPostTags(tags);
 ---
@@ -63,6 +65,13 @@ const visibleTags = getPostTags(tags);
         padding: 0.4rem 0;
       }
 
+      .back-link {
+        display: inline-block;
+        color: var(--color-primary-dark);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
       .title h1 {
         margin: 0.4rem 0;
       }
@@ -98,6 +107,41 @@ const visibleTags = getPostTags(tags);
         border-top: 1px solid var(--color-border);
       }
 
+      .post-nav {
+        margin-top: 1.8rem;
+      }
+
+      .related {
+        margin-top: 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        padding: 0.9rem;
+      }
+
+      .related h2 {
+        margin: 0 0 0.7rem;
+        font-size: 1.05rem;
+      }
+
+      .related ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+
+      .related a {
+        color: var(--color-primary-dark);
+      }
+
+      .related .related-date {
+        display: block;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+      }
+
       @media (max-width: 720px) {
         .prose {
           padding: 1rem;
@@ -108,7 +152,7 @@ const visibleTags = getPostTags(tags);
 
   <body>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <article>
         <div class="hero-image">
           {
@@ -119,6 +163,7 @@ const visibleTags = getPostTags(tags);
         </div>
         <div class="prose">
           <div class="title">
+            <a class="back-link" href="/posts/">&larr; Back to posts</a>
             <div class="date">
               <FormattedDate date={pubDate} />
               {
@@ -142,6 +187,28 @@ const visibleTags = getPostTags(tags);
             <hr />
           </div>
           <slot />
+          <div class="post-nav">
+            <a class="back-link" href="/posts/">&larr; Back to posts</a>
+          </div>
+          {
+            relatedPosts.length > 0 && (
+              <section class="related" aria-labelledby="related-title">
+                <h2 id="related-title">Related by tags</h2>
+                <ul>
+                  {relatedPosts.map((relatedPost) => (
+                    <li>
+                      <a href={getPostLink(relatedPost)}>
+                        {relatedPost.data.title}
+                      </a>
+                      <span class="related-date">
+                        <FormattedDate date={relatedPost.data.pubDate} />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
         </div>
       </article>
     </main>

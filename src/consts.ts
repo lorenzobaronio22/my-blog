@@ -19,8 +19,8 @@ export const config = {
 export const links = [
   { title: 'Home', url: '/' },
   { title: 'Posts', url: '/posts' },
-  { title: 'Tags', url: '/tags' },
   { title: 'Search', url: '/search' },
+  { title: 'Tags', url: '/tags' },
 ];
 
 export function getPostLink(post: { id: string }): string {

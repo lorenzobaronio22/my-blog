@@ -24,9 +24,10 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))]
   </head>
   <body>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="card tags" aria-labelledby="tags-title">
         <h1 id="tags-title">Tags</h1>
+        <p class="hint">Browse topics and jump into related posts quickly.</p>
         <div class="grid">
           {
             tags.map((item) => (
@@ -65,15 +66,41 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))]
     justify-content: space-between;
     gap: 0.6rem;
     text-decoration: none;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
+  }
+
+  .grid a:hover,
+  .grid a:focus-visible {
+    border-color: color-mix(
+      in srgb,
+      var(--color-primary) 60%,
+      var(--color-border)
+    );
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 
   .grid a strong {
     color: var(--color-primary);
+    font-size: 0.95rem;
+  }
+
+  .hint {
+    margin-bottom: 0.85rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
 
   @media (max-width: 720px) {
     .grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

@@ -5,7 +5,7 @@ test.describe('Homepage Content and Latest Links', () => {
     await page.goto('/');
 
     await expect(
-      page.getByRole('heading', { level: 1, name: 'Welcome!' }),
+      page.getByRole('heading', { level: 1, name: 'Code & Cables' }),
     ).toBeVisible();
     await expect(
       page.getByRole('heading', { level: 2, name: 'Latest Posts' }),

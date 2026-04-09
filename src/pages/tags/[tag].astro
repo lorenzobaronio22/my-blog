@@ -31,9 +31,11 @@ const posts = sortPosts(
   </head>
   <body>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="card tag-posts" aria-labelledby="tag-title">
+        <a class="back-link" href="/tags/">Back to all tags</a>
         <h1 id="tag-title">#{tag}</h1>
+        <p class="tag-hint">Posts grouped under this topic.</p>
         <PostList posts={posts} />
       </section>
     </main>
@@ -45,5 +47,18 @@ const posts = sortPosts(
   .tag-posts {
     margin-top: 0.8rem;
     padding: 1.2rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .tag-hint {
+    margin-bottom: 0.9rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
 </style>

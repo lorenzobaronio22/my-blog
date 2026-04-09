@@ -24,16 +24,21 @@ const entries = (await getCollection("posts")).map((post) => ({
   </head>
   <body>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="card search" aria-labelledby="search-title">
         <h1 id="search-title">Search</h1>
+        <label class="sr-only" for="search-input">Search posts</label>
         <input
           id="search-input"
           type="search"
           placeholder="Search posts, tags, or content"
+          aria-describedby="search-hint search-status"
         />
-        <p class="hint">Type at least 2 characters to start searching.</p>
-        <ul id="search-results"></ul>
+        <p id="search-hint" class="hint">
+          Type at least 2 characters to start searching.
+        </p>
+        <p id="search-status" class="status" aria-live="polite"></p>
+        <ul id="search-results" aria-live="polite"></ul>
       </section>
     </main>
     <Footer />
@@ -48,6 +53,7 @@ const entries = (await getCollection("posts")).map((post) => ({
       const dataElement = document.getElementById("search-data");
       const searchInput = document.getElementById("search-input");
       const results = document.getElementById("search-results");
+      const status = document.getElementById("search-status");
       const entries = dataElement
         ? JSON.parse(dataElement.textContent || "[]")
         : [];
@@ -59,7 +65,14 @@ const entries = (await getCollection("posts")).map((post) => ({
 
         if (items.length === 0) {
           results.innerHTML = '<li class="empty">No matching posts found.</li>';
+          if (status) {
+            status.textContent = "No matches found.";
+          }
           return;
+        }
+
+        if (status) {
+          status.textContent = `${items.length} result${items.length === 1 ? "" : "s"}.`;
         }
 
         results.innerHTML = items
@@ -74,6 +87,9 @@ const entries = (await getCollection("posts")).map((post) => ({
         const value = event.target.value.toLowerCase().trim();
         if (value.length < 2) {
           results.innerHTML = "";
+          if (status) {
+            status.textContent = "";
+          }
           return;
         }
 
@@ -109,7 +125,15 @@ const entries = (await getCollection("posts")).map((post) => ({
   .hint {
     margin-top: 0.55rem;
     color: var(--color-muted);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .status {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+    min-height: 1.2rem;
   }
 
   #search-results {
@@ -125,6 +149,19 @@ const entries = (await getCollection("posts")).map((post) => ({
     border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 0.55rem 0.7rem;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
+  }
+
+  #search-results li:hover,
+  #search-results li:focus-within {
+    border-color: color-mix(
+      in srgb,
+      var(--color-primary) 60%,
+      var(--color-border)
+    );
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 
   #search-results a {

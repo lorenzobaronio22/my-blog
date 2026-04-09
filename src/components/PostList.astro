@@ -43,23 +43,33 @@ const { posts } = Astro.props;
     grid-template-columns: 120px 1fr;
     gap: 0.6rem;
     align-items: baseline;
-    border-bottom: 1px dashed var(--color-border);
-    padding-bottom: 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.6rem 0.7rem;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
   }
 
-  .post-list li:last-child {
-    border-bottom: 0;
-    padding-bottom: 0;
+  .post-list li:hover,
+  .post-list li:focus-within {
+    border-color: color-mix(
+      in srgb,
+      var(--color-primary) 60%,
+      var(--color-border)
+    );
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 
   .post-list span {
     color: var(--color-muted);
-    font-size: 0.82rem;
+    font-size: 0.86rem;
   }
 
   .post-list a {
     color: var(--color-primary-dark);
-    font-weight: 550;
+    font-weight: 600;
+    line-height: 1.35;
   }
 
   @media (max-width: 720px) {
