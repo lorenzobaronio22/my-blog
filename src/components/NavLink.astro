@@ -28,6 +28,7 @@ const currentPath = normalizePathname(Astro.url.pathname);
           <li>
             <a
               href={link.url}
+              class="nav-anchor"
               class:list={[{ active: isActive }]}
               aria-current={isActive ? "page" : undefined}
             >
@@ -38,5 +39,7 @@ const currentPath = normalizePathname(Astro.url.pathname);
       })
     }
   </ul>
-  <ThemeButton />
+  <div class="nav-actions">
+    <ThemeButton />
+  </div>
 </nav>

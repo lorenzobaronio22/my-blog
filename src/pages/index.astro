@@ -17,10 +17,10 @@ const latestGreatestPosts = (await getAllPosts()).slice(0, 4);
   </head>
   <body>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="intro card" aria-labelledby="home-intro-title">
         <AvatarImage />
-        <h1 id="home-intro-title">Welcome!</h1>
+        <h1 id="home-intro-title">Code &amp; Cables</h1>
         <p>{SITE_DESCRIPTION}</p>
       </section>
 
@@ -28,7 +28,11 @@ const latestGreatestPosts = (await getAllPosts()).slice(0, 4);
         class="latest-greatest card"
         aria-labelledby="latest-greatest-title"
       >
-        <h2 id="latest-greatest-title">Latest Posts</h2>
+        <div class="latest-header">
+          <h2 id="latest-greatest-title">Latest Posts</h2>
+          <a class="all-posts-link" href="/posts/">Browse all posts</a>
+        </div>
+        <p class="latest-hint">Start here with the newest articles.</p>
         <ul>
           {
             latestGreatestPosts.map((post) => (
@@ -86,7 +90,27 @@ const latestGreatestPosts = (await getAllPosts()).slice(0, 4);
   }
 
   .latest-greatest h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+  }
+
+  .latest-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .all-posts-link {
+    color: var(--color-primary-dark);
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+
+  .latest-hint {
+    margin-bottom: 0.9rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
 
   .latest-greatest ul {
@@ -103,6 +127,22 @@ const latestGreatestPosts = (await getAllPosts()).slice(0, 4);
     align-items: baseline;
     gap: 0.75rem;
     flex-wrap: wrap;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.55rem 0.65rem;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
+  }
+
+  .latest-greatest li:hover,
+  .latest-greatest li:focus-within {
+    border-color: color-mix(
+      in srgb,
+      var(--color-primary) 60%,
+      var(--color-border)
+    );
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 
   .post-link {
@@ -118,6 +158,11 @@ const latestGreatestPosts = (await getAllPosts()).slice(0, 4);
   @media (max-width: 720px) {
     .latest-greatest {
       margin-top: 2rem;
+    }
+
+    .latest-header {
+      flex-wrap: wrap;
+      gap: 0.2rem 0.75rem;
     }
 
     .latest-greatest li {

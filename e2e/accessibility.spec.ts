@@ -152,6 +152,33 @@ test.describe('Page Landmarks and Regions', () => {
     await expect(nav).toBeVisible();
   });
 
+  test('skip link should jump focus to main content', async ({ page }) => {
+    await page.goto('/');
+
+    await page.keyboard.press('Tab');
+    const skipLink = page.getByRole('link', { name: 'Skip to content' });
+    await expect(skipLink).toBeFocused();
+
+    await page.keyboard.press('Enter');
+    const main = page.locator('main#main-content');
+    await expect(main).toBeFocused();
+  });
+
+  test('navigation should use the configured order', async ({ page }) => {
+    await page.goto('/');
+
+    const navLinkTexts = await page
+      .locator('header nav .nav-list a')
+      .allTextContents();
+
+    expect(navLinkTexts.slice(0, 4).map((text) => text.trim())).toEqual([
+      'Home',
+      'Posts',
+      'Search',
+      'Tags',
+    ]);
+  });
+
 });
 
 test.describe('Text Readability', () => {
@@ -254,6 +281,17 @@ test.describe('Form Accessibility (if applicable)', () => {
         expect(ariaLabel || inputId).toBeTruthy();
       }
     }
+  });
+
+  test('search input should have an associated label and status region', async ({ page }) => {
+    await page.goto('/search');
+
+    await expect(page.locator('label[for="search-input"]')).toHaveCount(1);
+    await expect(page.locator('#search-status')).toHaveAttribute('aria-live', 'polite');
+
+    const input = page.locator('#search-input');
+    await input.fill('cloudflare');
+    await expect(page.locator('#search-status')).not.toHaveText('');
   });
 });
 

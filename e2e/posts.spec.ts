@@ -78,3 +78,30 @@ test.describe('Mobile Responsive Posts Layout', () => {
     await expect(main).toBeVisible();
   });
 });
+
+test.describe('Post Detail Navigation', () => {
+  test('post detail should include top and bottom back-to-posts links', async ({ page }) => {
+    await page.goto('/posts');
+
+    const firstPostLink = page.locator('main section ul li > a[href*="/posts/"]').first();
+    await expect(firstPostLink).toBeVisible();
+    await firstPostLink.click();
+
+    const backLinks = page.getByRole('link', { name: /Back to posts/i });
+    await expect(backLinks).toHaveCount(2);
+  });
+
+  test('related by tags section should show at most 3 posts when present', async ({ page }) => {
+    await page.goto('/posts');
+
+    const firstPostLink = page.locator('main section ul li > a[href*="/posts/"]').first();
+    await expect(firstPostLink).toBeVisible();
+    await firstPostLink.click();
+
+    const relatedSection = page.locator('section[aria-labelledby="related-title"]');
+    if ((await relatedSection.count()) > 0) {
+      const relatedLinks = relatedSection.locator('li a');
+      expect(await relatedLinks.count()).toBeLessThanOrEqual(3);
+    }
+  });
+});

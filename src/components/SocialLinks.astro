@@ -51,6 +51,15 @@ const socialLinks: SocialLink[] = [
   .social-links--header a {
     padding: 1em 0.5em;
     color: var(--color-primary-dark);
+    border-radius: 8px;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .social-links--header a:hover,
+  .social-links--header a:focus-visible {
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
   }
 
   .social-links--footer {
@@ -61,10 +70,17 @@ const socialLinks: SocialLink[] = [
 
   .social-links--footer a {
     color: var(--color-muted);
+    border-radius: 8px;
+    padding: 0.15rem;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
   }
 
-  .social-links--footer a:hover {
+  .social-links--footer a:hover,
+  .social-links--footer a:focus-visible {
     color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
   }
 
   @media (max-width: 720px) {

@@ -6,6 +6,7 @@
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
   --color-shadow: rgba(17, 24, 39, 0.12);
+  --color-focus-ring: rgba(86, 182, 194, 0.45);
   --radius-pill: 9999px;
   --radius-card: 14px;
 }
@@ -17,6 +18,7 @@
   --color-muted: #a3a3a3;
   --color-border: #3f3f46;
   --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-focus-ring: rgba(86, 182, 194, 0.55);
 }
 
 * {
@@ -58,10 +60,19 @@ h6 {
 a {
   color: var(--color-primary);
   text-decoration: none;
+  text-underline-offset: 0.22rem;
+  text-decoration-thickness: 2px;
 }
 
-a:hover {
+a:hover,
+a:focus-visible {
   text-decoration: underline;
+}
+
+:where(a, button, input, select, textarea, summary, [role="button"]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
 }
 
 p {
@@ -113,6 +124,24 @@ ol {
   padding: 1rem 0.75rem;
 }
 
+.skip-link {
+  position: absolute;
+  top: -3.5rem;
+  left: 1rem;
+  z-index: 999;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: 0 12px 24px -20px var(--color-shadow);
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus-visible {
+  top: 0.6rem;
+}
+
 .site-header nav {
   width: min(820px, calc(100% - 1rem));
   margin: 0 auto;
@@ -138,12 +167,29 @@ ol {
 
 .nav-list a {
   color: var(--color-primary-dark);
+  display: inline-block;
+  padding: 0.2rem 0.3rem;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-list a:hover,
+.nav-list a:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
 }
 
 .nav-list a.active {
   color: var(--color-primary);
+  font-weight: 650;
   text-decoration: underline;
   text-underline-offset: 0.25rem;
+}
+
+.nav-actions {
+  display: inline-flex;
+  align-items: center;
+  border-left: 1px solid var(--color-border);
+  padding-left: 0.75rem;
 }
 
 .card {
@@ -164,6 +210,10 @@ ol {
 
   .nav-list {
     gap: 0.7rem;
+  }
+
+  .nav-actions {
+    padding-left: 0.5rem;
   }
 
   main {
