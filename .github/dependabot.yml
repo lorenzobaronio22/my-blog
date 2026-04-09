@@ -1,0 +1,68 @@
+version: 2
+updates:
+  # NPM security-only updates on daily schedule
+  # Catches critical vulnerabilities quickly
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    groups:
+      security:
+        dependency-types:
+          - "production"
+          - "development"
+        update-types:
+          - "version-update:semver-patch"
+          - "version-update:semver-minor"
+        patterns:
+          - "*"
+
+  # NPM regular updates on weekly schedule
+  # Groups dependencies and devDependencies separately
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    groups:
+      dependencies:
+        dependency-types:
+          - "production"
+        exclude-patterns:
+          - "typescript"
+      dev-dependencies:
+        dependency-types:
+          - "development"
+      typescript:
+        patterns:
+          - "typescript"
+        dependency-types:
+          - "development"
+
+  # GitHub Actions workflow updates on weekly schedule
+  # Keeps workflow actions current and secure
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:30"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"
