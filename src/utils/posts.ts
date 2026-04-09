@@ -7,7 +7,7 @@ type PostWithDate = {
   };
 };
 
-export function sortBlogPosts<T extends PostWithDate>(posts: T[]): T[] {
+export function sortPosts<T extends PostWithDate>(posts: T[]): T[] {
   return [...posts].sort((a, b) => {
     const byDate = b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
     if (byDate !== 0) {
@@ -25,5 +25,5 @@ export function mapPostsToStaticPaths<T extends { id: string }>(posts: T[]) {
 }
 
 export async function getAllPosts() {
-  return sortBlogPosts(await getCollection("blog"));
+  return sortPosts(await getCollection("posts"));
 }

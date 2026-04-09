@@ -5,9 +5,9 @@ import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, getPostLink } from "../../consts";
 import { formatYMD } from "../../utils/date-helper";
-import { sortBlogPosts } from "../../utils/blog";
+import { sortPosts } from "../../utils/posts";
 
-const posts = sortBlogPosts(await getCollection("blog"));
+const posts = sortPosts(await getCollection("posts"));
 ---
 
 <!doctype html>
@@ -19,7 +19,7 @@ const posts = sortBlogPosts(await getCollection("blog"));
     <Header />
     <main>
       <section class="archive card" aria-labelledby="archive-title">
-        <h1 id="archive-title">Blog</h1>
+        <h1 id="archive-title">Posts</h1>
         <ul>
           {
             posts.map((post) => (

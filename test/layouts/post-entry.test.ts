@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { ImageMetadata } from "astro";
-import { hasHeroImage, hasUpdatedDate } from "../../src/utils/blog-post";
+import { hasHeroImage, hasUpdatedDate } from "../../src/utils/post-entry";
 
 const heroImage: ImageMetadata = {
   src: "/test-image.jpg",
@@ -10,7 +10,7 @@ const heroImage: ImageMetadata = {
   format: "jpg",
 };
 
-describe("BlogPost layout", () => {
+describe("PostEntry layout", () => {
   it("flags updated date section as visible when updatedDate is provided", () => {
     expect(hasUpdatedDate(new Date("2022-07-09T00:00:00.000Z"))).toBe(true);
   });

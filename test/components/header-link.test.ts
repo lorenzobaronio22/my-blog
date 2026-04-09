@@ -6,18 +6,18 @@ describe("HeaderLink active-state logic", () => {
   it("marks link as active when href matches pathname", () => {
     expect(
       isHeaderLinkActive({
-        href: "/blog",
-        pathname: "/blog",
+        href: "/posts",
+        pathname: "/posts",
         baseUrl: "/",
       }),
     ).toBe(true);
   });
 
-  it("marks section link as active for nested blog paths", () => {
+  it("marks section link as active for nested post paths", () => {
     expect(
       isHeaderLinkActive({
-        href: "/blog",
-        pathname: "/blog/my-post",
+        href: "/posts",
+        pathname: "/posts/my-post",
         baseUrl: "/",
       }),
     ).toBe(true);
@@ -27,7 +27,7 @@ describe("HeaderLink active-state logic", () => {
     expect(
       isHeaderLinkActive({
         href: "/",
-        pathname: "/blog/my-post",
+        pathname: "/posts/my-post",
         baseUrl: "/",
       }),
     ).toBe(false);
@@ -36,8 +36,8 @@ describe("HeaderLink active-state logic", () => {
   it("handles base URL stripping", () => {
     expect(
       isHeaderLinkActive({
-        href: "/blog",
-        pathname: "/base/blog",
+        href: "/posts",
+        pathname: "/base/posts",
         baseUrl: "/base",
       }),
     ).toBe(true);

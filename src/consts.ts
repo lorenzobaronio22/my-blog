@@ -18,11 +18,11 @@ export const config = {
 
 export const links = [
   { title: 'Home', url: '/' },
-  { title: 'Blog', url: '/blog' },
+  { title: 'Posts', url: '/posts' },
   { title: 'Tags', url: '/tags' },
   { title: 'Search', url: '/search' },
 ];
 
 export function getPostLink(post: { id: string }): string {
-  return `/blog/${post.id}/`;
+  return `/posts/${post.id}/`;
 }

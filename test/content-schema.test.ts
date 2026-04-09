@@ -3,11 +3,11 @@ import { describe, expect, it } from "vitest";
 
 import { collections } from "../src/content.config";
 
-describe("blog content schema", () => {
-  const schemaFactory = collections.blog.schema;
+describe("posts content schema", () => {
+  const schemaFactory = collections.posts.schema;
 
   if (typeof schemaFactory !== "function") {
-    throw new Error("Expected blog schema to be a schema factory function");
+    throw new Error("Expected posts schema to be a schema factory function");
   }
 
   const schema = schemaFactory({
@@ -82,7 +82,7 @@ describe("blog content schema", () => {
       title: "Post title",
       description: "Post description",
       pubDate: "2026-04-04",
-      heroImage: "../../assets/blog-placeholder-1.jpg",
+      heroImage: "../../assets/post-placeholder-1.jpg",
     });
 
     expect(withoutHeroImage.success).toBe(true);

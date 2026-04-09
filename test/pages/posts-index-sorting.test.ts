@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { sortBlogPosts } from "../../src/utils/blog";
+import { sortPosts } from "../../src/utils/posts";
 
-describe("blog index sorting", () => {
+describe("posts index sorting", () => {
   it("sorts posts by pubDate descending", () => {
     const posts = [
       { id: "first", data: { pubDate: new Date("2022-07-08") } },
@@ -10,7 +10,7 @@ describe("blog index sorting", () => {
       { id: "second", data: { pubDate: new Date("2022-07-15") } },
     ];
 
-    const sorted = sortBlogPosts(posts);
+    const sorted = sortPosts(posts);
 
     expect(sorted.map((post) => post.id)).toEqual(["third", "second", "first"]);
   });
@@ -22,15 +22,15 @@ describe("blog index sorting", () => {
       { id: "a-post", data: { pubDate: sharedDate } },
     ];
 
-    const sorted = sortBlogPosts(posts);
+    const sorted = sortPosts(posts);
 
     expect(sorted.map((post) => post.id)).toEqual(["a-post", "z-post"]);
   });
 
   it("handles empty and single-item collections", () => {
-    expect(sortBlogPosts([])).toEqual([]);
+    expect(sortPosts([])).toEqual([]);
 
     const onePost = [{ id: "only", data: { pubDate: new Date("2022-07-08") } }];
-    expect(sortBlogPosts(onePost)).toEqual(onePost);
+    expect(sortPosts(onePost)).toEqual(onePost);
   });
 });

@@ -9,10 +9,10 @@
 
 ## Architecture
 
-- Route files live in src/pages and define site URLs; blog routes are in src/pages/blog.
-- Blog content is managed through Astro Content Collections in src/content/blog and schema rules in src/content.config.ts.
+- Route files live in src/pages and define site URLs; posts routes are in src/pages/posts.
+- Post content is managed through Astro Content Collections in src/content/posts and schema rules in src/content.config.ts.
 - Shared shell and SEO primitives are in src/components (especially BaseHead.astro, Header.astro, Footer.astro).
-- Post rendering flow: src/pages/blog/[...slug].astro loads a content entry, then src/layouts/BlogPost.astro renders it.
+- Post rendering flow: src/pages/posts/[...slug].astro loads a content entry, then src/layouts/PostEntry.astro renders it.
 
 ## Build and Test
 
@@ -34,11 +34,11 @@
 - For logic-heavy Astro files, extract pure helpers to src/utils and unit test those helpers.
 - Use Astro Container API tests when verifying rendered HTML behavior of Astro components.
 - Use relative hero image imports from within post files (for example ../../assets/...) so Astro image handling resolves correctly.
-- Keep posts in src/content/blog as .md or .mdx files matching the existing frontmatter style.
+- Keep posts in src/content/posts as .md or .mdx files matching the existing frontmatter style.
 - Before changing structure or commands, check README.md and update it if behavior changes.
 - Update astro.config.mjs site value from https://example.com when configuring deployment, because canonical URLs, sitemap, and RSS depend on it.
 
 ## Documentation
 
 - Start with README.md for project overview, structure, and command reference.
-- Treat src/content.config.ts and src/layouts/BlogPost.astro as source-of-truth examples for content and rendering patterns.
+- Treat src/content.config.ts and src/layouts/PostEntry.astro as source-of-truth examples for content and rendering patterns.

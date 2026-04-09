@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import { SITE_TITLE } from "../../consts";
 
-const entries = (await getCollection("blog")).map((post) => ({
+const entries = (await getCollection("posts")).map((post) => ({
   id: post.id,
   title: post.data.title,
   description: post.data.description,
@@ -19,7 +19,7 @@ const entries = (await getCollection("blog")).map((post) => ({
   <head>
     <BaseHead
       title={`Search | ${SITE_TITLE}`}
-      description="Search through blog posts."
+      description="Search through posts."
     />
   </head>
   <body>
@@ -65,7 +65,7 @@ const entries = (await getCollection("blog")).map((post) => ({
         results.innerHTML = items
           .map(
             (item) =>
-              `<li><a href="/blog/${item.id}/"><strong>${item.title}</strong><span>${item.description}</span></a></li>`,
+              `<li><a href="/posts/${item.id}/"><strong>${item.title}</strong><span>${item.description}</span></a></li>`,
           )
           .join("");
       };
