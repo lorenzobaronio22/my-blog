@@ -1,5 +1,5 @@
 ---
-title: Docker Insecure Registries: HTTP Configuration
+title: Docker Insecure Registries HTTP Configuration
 description: Configuring access to private Docker registries running over plain HTTP in isolated networks.
 pubDate: 2026-04-11
 tags: [homelab, docker, registry]
